@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { MapPin, Phone, Clock } from "lucide-react";
 import { NAV_LINKS, SITE } from "@/lib/site";
 import { WhatsAppLink } from "./WhatsAppButton";
-import logoAsset from "@/assets/logo.png.asset.json";
+import { ASSETS } from "@/lib/assets";
 
 export function SiteFooter() {
   return (
@@ -11,7 +11,7 @@ export function SiteFooter() {
         <div>
           <div className="mb-4 flex items-center gap-3">
             <img 
-              src={logoAsset.url} 
+              src={ASSETS.LOGO} 
               alt="Potigua Caçamba Logo" 
               className="h-16 w-auto object-contain"
             />

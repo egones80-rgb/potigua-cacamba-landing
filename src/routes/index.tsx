@@ -12,8 +12,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import truckImg from "@/assets/caminhao-cacamba.jpg";
-import c1 from "@/assets/c1.json";
-import heroOfficial from "@/assets/hero-official.png.asset.json";
+import { ASSETS } from "@/lib/assets";
 import { Reveal } from "@/components/Reveal";
 
 import { WhatsAppLink } from "@/components/WhatsAppButton";
@@ -21,7 +20,7 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { SmokeText } from "@/components/SmokeText";
 import { SITE } from "@/lib/site";
 import { PhotoGallery } from "@/components/PhotoGallery";
-import { CACAMBA_PHOTOS } from "@/lib/photos";
+import { ASSETS as ASSETS_GALLERY } from "@/lib/assets";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -113,7 +112,7 @@ function Index() {
           <Reveal delay={150}>
             <div className="relative overflow-hidden rounded-md border border-border shadow-2xl bg-black">
               <img
-                src={heroOfficial.url}
+                src={ASSETS.HERO}
                 alt="Logo oficial Potigua Caçamba com caminhão e caçamba"
                 width={1024}
                 height={1024}
@@ -167,7 +166,7 @@ function Index() {
       </section>
 
       {/* GALERIA DE FOTOS */}
-      <PhotoGallery photos={CACAMBA_PHOTOS} />
+      <PhotoGallery photos={ASSETS_GALLERY.GALLERY} />
 
       {/* PROCESSO */}
       <section className="py-16 lg:py-20">

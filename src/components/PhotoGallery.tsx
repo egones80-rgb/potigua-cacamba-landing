@@ -118,7 +118,7 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
                     className="absolute w-[280px] sm:w-[400px] lg:w-[500px] aspect-[4/3] cursor-pointer rounded-xl overflow-hidden shadow-2xl border border-border"
                     initial={false}
                     animate={{
-                      x: shouldReduceMotion ? 0 : offset * (window?.innerWidth < 640 ? 150 : 250),
+                      x: shouldReduceMotion ? 0 : offset * (typeof window !== "undefined" && window.innerWidth < 640 ? 150 : 250),
                       scale: shouldReduceMotion ? 1 : 1 - absOffset * 0.15,
                       rotateY: shouldReduceMotion ? 0 : offset * -35,
                       z: shouldReduceMotion ? 0 : -absOffset * 250,

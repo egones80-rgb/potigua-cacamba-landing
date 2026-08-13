@@ -3,7 +3,7 @@ import { Menu, X, Phone } from "lucide-react";
 import { useState } from "react";
 import { NAV_LINKS, SITE } from "@/lib/site";
 import { WhatsAppLink } from "./WhatsAppButton";
-import logoAsset from "@/assets/logo.png.asset.json";
+import { ASSETS } from "@/lib/assets";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -13,7 +13,7 @@ export function SiteHeader() {
       <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 lg:px-8">
         <Link to="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
           <img 
-            src={logoAsset.url} 
+            src={ASSETS.LOGO} 
             alt="Potigua Caçamba" 
             className="h-10 w-auto object-contain sm:h-12"
           />
