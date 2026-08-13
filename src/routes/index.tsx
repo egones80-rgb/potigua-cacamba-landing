@@ -180,7 +180,7 @@ function Index() {
           <Reveal>
             <h2 className="text-2xl sm:text-3xl">Áreas atendidas</h2>
             <p className="mt-4 max-w-2xl text-muted-foreground">
-              Atendemos a {SITE.region}. Cidades e bairros atendidos: [PREENCHER]
+              Atendemos a {SITE.region}. Cidades e bairros atendidos: [CIDADES E BAIRROS A CONFIRMAR]
             </p>
             <Link
               to="/areas-atendidas"

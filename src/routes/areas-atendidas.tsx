@@ -40,7 +40,7 @@ function Page() {
             <div className="border border-border bg-card p-8">
               <MapPin className="h-9 w-9 text-primary" />
               <h2 className="mt-4 text-xl">Cidades e bairros atendidos</h2>
-              <p className="mt-3 text-muted-foreground">[PREENCHER]</p>
+              <p className="mt-3 text-muted-foreground">[CIDADES E BAIRROS A CONFIRMAR]</p>
             </div>
           </Reveal>
         </div>
