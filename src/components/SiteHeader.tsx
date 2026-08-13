@@ -3,6 +3,7 @@ import { Menu, X, Phone } from "lucide-react";
 import { useState } from "react";
 import { NAV_LINKS, SITE } from "@/lib/site";
 import { WhatsAppLink } from "./WhatsAppButton";
+import logoAsset from "@/assets/logo.png.asset.json";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -11,14 +12,16 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 w-full border-b border-border bg-ink text-ink-foreground">
       <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 lg:px-8">
         <Link to="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-sm bg-primary font-display text-lg text-primary-foreground">
-            PC
-          </span>
+          <img 
+            src={logoAsset.url} 
+            alt="Potigua Caçamba" 
+            className="h-10 w-auto object-contain sm:h-12"
+          />
           <span className="min-w-0">
-            <span className="block truncate font-display text-lg leading-none">
+            <span className="block truncate font-display text-lg leading-none sm:text-xl">
               Potigua <span className="text-primary">Caçamba</span>
             </span>
-            <span className="block truncate text-[11px] uppercase tracking-widest text-muted-foreground">
+            <span className="block truncate text-[10px] uppercase tracking-widest text-muted-foreground sm:text-[11px]">
               {SITE.region}
             </span>
           </span>
