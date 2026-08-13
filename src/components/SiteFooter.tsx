@@ -2,17 +2,19 @@ import { Link } from "@tanstack/react-router";
 import { MapPin, Phone, Clock } from "lucide-react";
 import { NAV_LINKS, SITE } from "@/lib/site";
 import { WhatsAppLink } from "./WhatsAppButton";
+import logoAsset from "@/assets/logo.png.asset.json";
 
 export function SiteFooter() {
   return (
     <footer className="border-t-4 border-primary bg-ink text-ink-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div>
-          <div className="mb-4 flex items-center gap-2">
-            {/* Logo oficial será adicionado aqui após envio do asset */}
-            <div className="h-12 w-12 bg-primary/20 flex items-center justify-center rounded border border-primary/30 text-[10px] text-primary uppercase font-bold text-center p-1">
-              Logo
-            </div>
+          <div className="mb-4 flex items-center gap-3">
+            <img 
+              src={logoAsset.url} 
+              alt="Potigua Caçamba Logo" 
+              className="h-16 w-auto object-contain"
+            />
             <h3 className="text-xl">
               Potigua <span className="text-primary">Caçamba</span>
             </h3>
