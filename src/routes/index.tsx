@@ -12,7 +12,9 @@ import {
   ArrowRight,
 } from "lucide-react";
 import truckImg from "@/assets/caminhao-cacamba.jpg";
+import c1 from "@/assets/c1.json";
 import { Reveal } from "@/components/Reveal";
+import { HeroAnimation } from "@/components/HeroAnimation";
 import { WhatsAppLink } from "@/components/WhatsAppButton";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { SmokeText } from "@/components/SmokeText";
@@ -108,13 +110,16 @@ function Index() {
           </Reveal>
 
           <Reveal delay={150}>
-            <img
-              src={truckImg}
-              alt="Caminhão poliguindaste carregando caçamba laranja em obra"
-              width={1400}
-              height={1000}
-              className="w-full rounded-md border border-border object-cover shadow-2xl"
-            />
+            <div className="relative overflow-hidden rounded-md border border-border shadow-2xl">
+              <HeroAnimation />
+              <img
+                src={(c1 as any).url}
+                alt="Caçamba laranja da Potigua Caçamba com animação de entulho caindo"
+                width={1400}
+                height={1000}
+                className="relative z-0 w-full object-cover"
+              />
+            </div>
           </Reveal>
         </div>
       </section>
