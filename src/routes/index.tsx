@@ -15,6 +15,7 @@ import truckImg from "@/assets/caminhao-cacamba.jpg";
 import { Reveal } from "@/components/Reveal";
 import { WhatsAppLink } from "@/components/WhatsAppButton";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { SmokeText } from "@/components/SmokeText";
 import { SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
@@ -80,9 +81,13 @@ function Index() {
             <p className="font-display text-xs uppercase tracking-[0.3em] text-primary">
               {SITE.region}
             </p>
-            <h1 className="mt-4 text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">
-              Locação de caçamba para <span className="text-primary">obra, reforma e entulho</span>
-            </h1>
+            <SmokeText 
+              text="POTIGUA CAÇAMBA" 
+              className="mt-4 text-4xl sm:text-5xl lg:text-7xl" 
+            />
+            <h2 className="mt-2 text-2xl leading-tight text-white sm:text-3xl lg:text-4xl">
+              Locação para <span className="text-primary">obra, reforma e entulho</span>
+            </h2>
             <p className="mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
               Caçambas para descarte de entulho com atendimento direto pelo WhatsApp. Simples,
               rápido e sem burocracia.
