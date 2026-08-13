@@ -24,9 +24,18 @@ export const Route = createFileRoute("/sobre")({
 });
 
 const BLOCKS = [
-  { title: "Nossa história", text: "[PREENCHER]" },
-  { title: "Diferenciais", text: "[PREENCHER]" },
-  { title: "Licenças e nota fiscal", text: "[PREENCHER]" },
+  {
+    title: "O que é a Potigua Caçamba?",
+    text: "Somos uma empresa especializada em locação de caçambas para obras, reformas e retirada de entulho. Atuamos com foco em agilidade e eficiência para garantir que o descarte de resíduos do seu projeto seja feito de forma correta e sem complicações.",
+  },
+  {
+    title: "Para quem é?",
+    text: "Atendemos pessoas realizando reformas residenciais, proprietários de obras de todos os portes, profissionais da construção civil e empresas que necessitam de soluções confiáveis para o descarte de entulho.",
+  },
+  {
+    title: "Nosso Diferencial",
+    text: "[PREENCHER]",
+  },
 ];
 
 function Page() {

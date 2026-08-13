@@ -23,7 +23,10 @@ export const Route = createFileRoute("/retirada-de-entulho")({
 });
 
 const BLOCKS = [
-  { title: "Como funciona a retirada", text: "[PREENCHER]" },
+  {
+    title: "Como solicitar a retirada?",
+    text: "Basta entrar em contato pelo WhatsApp, informar a necessidade da retirada e agendar o melhor horário. Confirmamos a disponibilidade e realizamos a coleta do material de forma ágil.",
+  },
   { title: "Tipos de entulho atendidos", text: "[PREENCHER]" },
   { title: "Destinação dos resíduos", text: "[PREENCHER]" },
 ];

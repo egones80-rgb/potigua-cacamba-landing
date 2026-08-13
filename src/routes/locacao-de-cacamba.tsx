@@ -23,12 +23,15 @@ export const Route = createFileRoute("/locacao-de-cacamba")({
 });
 
 const BLOCKS = [
+  {
+    title: "Como funciona a locação?",
+    text: "O processo é simples: 1. Solicitação via WhatsApp -> 2. Definição do tipo de caçamba -> 3. Orçamento e confirmação -> 4. Entrega no local -> 5. Utilização -> 6. Retirada após o uso.",
+  },
   { title: "Tamanhos disponíveis", text: "[PREENCHER]" },
   { title: "Prazo de entrega", text: "[PREENCHER]" },
   { title: "Tempo de locação", text: "[PREENCHER]" },
   { title: "Formas de pagamento", text: "[PREENCHER]" },
   { title: "Materiais aceitos", text: "[PREENCHER]" },
-  { title: "Licenças e documentação", text: "[PREENCHER]" },
 ];
 
 function Page() {
