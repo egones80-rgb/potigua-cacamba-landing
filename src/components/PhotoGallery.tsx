@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Reveal } from "./Reveal";
 
 interface Photo {
@@ -11,39 +12,72 @@ interface PhotoGalleryProps {
   photos: Photo[];
 }
 
+const titles = [
+  "Caçamba Potigua",
+  "Caçamba para obras",
+  "Caçamba para reformas",
+  "Caçamba Potigua Caçamba",
+  "Caçamba Potigua",
+  "Caçamba para obras",
+  "Caçamba para reformas",
+  "Caçamba Potigua Caçamba",
+];
+
 export function PhotoGallery({ photos }: PhotoGalleryProps) {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const openLightbox = (index: number) => {
-    setSelectedImage(index);
-    document.body.style.overflow = "hidden";
+  const nextSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % photos.length);
+  }, [photos.length]);
+
+  const prevSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + photos.length) % photos.length);
+  }, [photos.length]);
+
+  // Autoplay logic
+  useEffect(() => {
+    if (isPaused || shouldReduceMotion) return;
+
+    timeoutRef.current = setTimeout(() => {
+      nextSlide();
+    }, 4000);
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [activeIndex, isPaused, nextSlide, shouldReduceMotion]);
+
+  const handleInteraction = () => {
+    setIsPaused(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    
+    // Resume after 8 seconds of inactivity
+    setTimeout(() => {
+      setIsPaused(false);
+    }, 8000);
   };
 
-  const closeLightbox = () => {
-    setSelectedImage(null);
-    document.body.style.overflow = "auto";
-  };
-
-  const nextImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (selectedImage !== null) {
-      setSelectedImage((selectedImage + 1) % photos.length);
-    }
-  };
-
-  const prevImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (selectedImage !== null) {
-      setSelectedImage((selectedImage - 1 + photos.length) % photos.length);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") {
+      handleInteraction();
+      prevSlide();
+    } else if (e.key === "ArrowRight") {
+      handleInteraction();
+      nextSlide();
     }
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-white">
+    <section className="py-16 lg:py-24 bg-white overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <Reveal>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-display uppercase tracking-tight">Conheça nossas caçambas</h2>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-display uppercase tracking-tight">
+              Conheça nossas caçambas
+            </h2>
             <div className="mt-2 h-1 w-20 bg-primary mx-auto" />
             <p className="mt-4 text-muted-foreground text-lg">
               Confira algumas das caçambas da Potigua Caçamba.
@@ -51,77 +85,133 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {photos.map((photo, index) => (
-            <Reveal key={index} delay={index * 50} slideUp>
-              <div 
-                className="group relative aspect-square overflow-hidden rounded-lg bg-secondary cursor-pointer border border-border transition-all duration-300 hover:shadow-xl hover:border-primary"
-                onClick={() => openLightbox(index)}
-              >
-                <img
-                  src={photo.url}
-                  alt={photo.alt}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-ink/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="bg-primary text-primary-foreground p-2 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <span className="sr-only">Ver ampliado</span>
-                    <ChevronRight className="h-6 w-6" />
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
+        <div 
+          className="relative h-[400px] sm:h-[500px] w-full flex items-center justify-center perspective-[1200px]"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onKeyDown={handleKeyDown}
+          tabIndex={0}
+          aria-roledescription="carousel"
+          aria-label="Galeria de fotos das caçambas"
+        >
+          <div className="relative w-full h-full flex items-center justify-center preserve-3d">
+            <AnimatePresence initial={false}>
+              {photos.map((photo, index) => {
+                // Calculate distance from active index for Coverflow effect
+                let offset = index - activeIndex;
+                
+                // Handle circular offset
+                if (offset > photos.length / 2) offset -= photos.length;
+                if (offset < -photos.length / 2) offset += photos.length;
+
+                const isActive = index === activeIndex;
+                const absOffset = Math.abs(offset);
+                
+                // Only show a few slides for performance and visual clarity
+                if (absOffset > 2 && !shouldReduceMotion) return null;
+                // If reduced motion, only show active slide
+                if (shouldReduceMotion && !isActive) return null;
+
+                return (
+                  <motion.div
+                    key={index}
+                    className="absolute w-[280px] sm:w-[400px] lg:w-[500px] aspect-[4/3] cursor-pointer rounded-xl overflow-hidden shadow-2xl border border-border"
+                    initial={false}
+                    animate={{
+                      x: shouldReduceMotion ? 0 : offset * (window?.innerWidth < 640 ? 150 : 250),
+                      scale: shouldReduceMotion ? 1 : 1 - absOffset * 0.15,
+                      rotateY: shouldReduceMotion ? 0 : offset * -35,
+                      z: shouldReduceMotion ? 0 : -absOffset * 250,
+                      opacity: shouldReduceMotion ? (isActive ? 1 : 0) : 1 - absOffset * 0.3,
+                      zIndex: 10 - absOffset,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 30,
+                    }}
+                    onClick={() => {
+                      handleInteraction();
+                      setActiveIndex(index);
+                    }}
+                  >
+                    <img
+                      src={photo.url}
+                      alt={photo.alt}
+                      className="w-full h-full object-cover"
+                    />
+                    
+                    {/* Caption Overlay */}
+                    <div className={`absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
+                      <p className="text-white font-display text-lg sm:text-xl uppercase">
+                        {titles[index % titles.length]}
+                      </p>
+                      <div className="h-0.5 w-10 bg-primary mt-1" />
+                    </div>
+
+                    {!isActive && (
+                      <div className="absolute inset-0 bg-ink/10 pointer-events-none" />
+                    )}
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+
+          {/* Navigation Controls */}
+          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-2 sm:px-8 pointer-events-none z-20">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleInteraction();
+                prevSlide();
+              }}
+              className="p-3 rounded-full bg-white/90 shadow-lg border border-border text-ink hover:bg-primary hover:text-white transition-all pointer-events-auto"
+              aria-label="Slide anterior"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleInteraction();
+                nextSlide();
+              }}
+              className="p-3 rounded-full bg-white/90 shadow-lg border border-border text-ink hover:bg-primary hover:text-white transition-all pointer-events-auto"
+              aria-label="Próximo slide"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+          </div>
+
+          {/* Indicators */}
+          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+            {photos.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  handleInteraction();
+                  setActiveIndex(index);
+                }}
+                className={`h-1.5 transition-all duration-300 rounded-full ${
+                  index === activeIndex ? "w-8 bg-primary" : "w-2 bg-border hover:bg-primary/50"
+                }`}
+                aria-label={`Ir para slide ${index + 1}`}
+                aria-current={index === activeIndex ? "true" : "false"}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Lightbox */}
-      {selectedImage !== null && photos[selectedImage] && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 sm:p-8 animate-in fade-in duration-300"
-          onClick={closeLightbox}
-        >
-          <button 
-            className="absolute top-4 right-4 text-white hover:text-primary transition-colors p-2"
-            onClick={closeLightbox}
-            aria-label="Fechar galeria"
-          >
-            <X className="h-8 w-8" />
-          </button>
-          
-          <button 
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-primary transition-colors p-2 bg-black/50 rounded-full"
-            onClick={prevImage}
-            aria-label="Foto anterior"
-          >
-            <ChevronLeft className="h-8 w-8" />
-          </button>
-
-          <div className="max-w-5xl max-h-full" onClick={(e) => e.stopPropagation()}>
-            <img 
-              src={photos[selectedImage].url} 
-              alt={photos[selectedImage].alt}
-              className="max-h-[85vh] w-auto mx-auto object-contain rounded shadow-2xl animate-in zoom-in-95 duration-300"
-            />
-            <p className="text-white text-center mt-4 font-medium text-sm sm:text-base">
-              {photos[selectedImage].alt}
-            </p>
-          </div>
-
-          <button 
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-primary transition-colors p-2 bg-black/50 rounded-full"
-            onClick={nextImage}
-            aria-label="Próxima foto"
-          >
-            <ChevronRight className="h-8 w-8" />
-          </button>
-
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-xs sm:text-sm">
-            {(selectedImage ?? 0) + 1} / {photos.length}
-          </div>
-        </div>
-      )}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .perspective-1200 {
+          perspective: 1200px;
+        }
+        .preserve-3d {
+          transform-style: preserve-3d;
+        }
+      `}} />
     </section>
   );
 }
