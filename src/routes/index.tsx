@@ -17,6 +17,8 @@ import { WhatsAppLink } from "@/components/WhatsAppButton";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { SmokeText } from "@/components/SmokeText";
 import { SITE } from "@/lib/site";
+import { PhotoGallery } from "@/components/PhotoGallery";
+import { CACAMBA_PHOTOS } from "@/lib/photos";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -158,6 +160,9 @@ function Index() {
           </div>
         </div>
       </section>
+
+      {/* GALERIA DE FOTOS */}
+      <PhotoGallery photos={CACAMBA_PHOTOS} />
 
       {/* PROCESSO */}
       <section className="py-16 lg:py-20">
