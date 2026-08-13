@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import truckImg from "@/assets/caminhao-cacamba.jpg";
 import c1 from "@/assets/c1.json";
+import heroOfficial from "@/assets/hero-official.png.asset.json";
 import { Reveal } from "@/components/Reveal";
 
 import { WhatsAppLink } from "@/components/WhatsAppButton";
