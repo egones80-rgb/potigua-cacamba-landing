@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
+type DebrisType = "brick" | "concrete" | "wood" | "stone" | "mortar";
+
 interface DebrisItem {
   id: number;
-  type: "brick" | "concrete" | "wood" | "stone" | "mortar";
+  type: DebrisType;
   startX: number;
   rotation: number;
   scale: number;
@@ -11,7 +13,7 @@ interface DebrisItem {
   delay: number;
 }
 
-const DEBRIS_SVGS = {
+const DEBRIS_SVGS: Record<DebrisType, React.ReactNode> = {
   brick: (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M4 6H20V18H4V6Z" fill="#B45309" />
@@ -57,13 +59,13 @@ export function HeroAnimation() {
     if (shouldReduceMotion) return;
 
     const spawnBatch = () => {
-      const isMobile = window.innerWidth < 768;
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
       const batchSize = isMobile ? Math.floor(Math.random() * 2) + 2 : Math.floor(Math.random() * 4) + 3;
       
-      const types: DebrisItem['type'][] = ["brick", "concrete", "wood", "stone", "mortar"];
+      const types: DebrisType[] = ["brick", "concrete", "wood", "stone", "mortar"];
       const newItems: DebrisItem[] = Array.from({ length: batchSize }).map((_, i) => ({
         id: counter + i,
-        type: types[Math.floor(Math.random() * types.length)],
+        type: types[Math.floor(Math.random() * types.length)] as DebrisType,
         startX: 15 + Math.random() * 70,
         rotation: Math.random() * 360,
         scale: 0.6 + Math.random() * 0.8,
@@ -77,7 +79,6 @@ export function HeroAnimation() {
 
     const interval = setInterval(() => {
       spawnBatch();
-      // Clean up old items from state periodically
       setDebris(prev => prev.filter(item => item.id > counter - 20));
     }, 2500);
 
