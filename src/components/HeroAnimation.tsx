@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 interface DebrisItem {
@@ -53,37 +53,34 @@ export function HeroAnimation() {
   const [counter, setCounter] = useState(0);
   const shouldReduceMotion = useReducedMotion();
 
-  const spawnBatch = () => {
-    const isMobile = window.innerWidth < 768;
-    const batchSize = isMobile ? Math.floor(Math.random() * 2) + 2 : Math.floor(Math.random() * 4) + 3;
-    
-    const newItems: DebrisItem[] = Array.from({ length: batchSize }).map((_, i) => {
-      const types: Array<keyof typeof DEBRIS_SVGS> = ["brick", "concrete", "wood", "stone", "mortar"];
-      return {
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+
+    const spawnBatch = () => {
+      const isMobile = window.innerWidth < 768;
+      const batchSize = isMobile ? Math.floor(Math.random() * 2) + 2 : Math.floor(Math.random() * 4) + 3;
+      
+      const types: DebrisItem['type'][] = ["brick", "concrete", "wood", "stone", "mortar"];
+      const newItems: DebrisItem[] = Array.from({ length: batchSize }).map((_, i) => ({
         id: counter + i,
         type: types[Math.floor(Math.random() * types.length)],
-        startX: 15 + Math.random() * 70, // 15% to 85% width
+        startX: 15 + Math.random() * 70,
         rotation: Math.random() * 360,
         scale: 0.6 + Math.random() * 0.8,
         duration: 1.5 + Math.random() * 1.5,
         delay: Math.random() * 1.5,
-      };
-    });
+      }));
 
-    setDebris((prev) => [...prev, ...newItems]);
-    setCounter((prev) => prev + batchSize);
-  };
-
-  useEffect(() => {
-    if (shouldReduceMotion) return;
+      setDebris((prev) => [...prev, ...newItems]);
+      setCounter((prev) => prev + batchSize);
+    };
 
     const interval = setInterval(() => {
       spawnBatch();
-      // Keep state clean - remove old items after they fall
+      // Clean up old items from state periodically
       setDebris(prev => prev.filter(item => item.id > counter - 20));
     }, 2500);
 
-    // Initial spawn
     spawnBatch();
 
     return () => clearInterval(interval);
@@ -100,14 +97,14 @@ export function HeroAnimation() {
             initial={{ 
               y: -50, 
               x: `${item.startX}%`, 
-              rotation: item.rotation,
+              rotate: item.rotation,
               opacity: 0,
               scale: item.scale
             }}
             animate={{ 
-              y: "85%", // Falls into the dumpster (assuming it sits at the bottom)
-              x: [`${item.startX}%`, `${item.startX + (Math.random() * 10 - 5)}%`, `${item.startX + (Math.random() * 10 - 5)}%`],
-              rotation: item.rotation + 360 * (Math.random() > 0.5 ? 1 : -1),
+              y: "85%",
+              x: [`${item.startX}%`, `${item.startX + (Math.random() * 6 - 3)}%`, `${item.startX + (Math.random() * 6 - 3)}%`],
+              rotate: item.rotation + 360 * (Math.random() > 0.5 ? 1 : -1),
               opacity: [0, 1, 1, 0],
               scale: item.scale,
             }}
@@ -117,9 +114,6 @@ export function HeroAnimation() {
               ease: "linear",
             }}
             className="absolute w-6 h-6 sm:w-8 sm:h-8"
-            onAnimationComplete={() => {
-              setDebris(prev => prev.filter(d => d.id !== item.id));
-            }}
           >
             {DEBRIS_SVGS[item.type]}
           </motion.div>
