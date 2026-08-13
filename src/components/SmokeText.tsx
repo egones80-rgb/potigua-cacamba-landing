@@ -13,8 +13,9 @@ export function SmokeText({ text, className, delay = 0 }: SmokeTextProps) {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
+      (entries) => {
+        const entry = entries[0];
+        if (entry && entry.isIntersecting) {
           setIsVisible(true);
           observer.disconnect();
         }
