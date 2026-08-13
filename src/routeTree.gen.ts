@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AreasAtendidasRouteImport } from './routes/areas-atendidas'
+import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as LocacaoDeCacambaRouteImport } from './routes/locacao-de-cacamba'
+import { Route as PerguntasFrequentesRouteImport } from './routes/perguntas-frequentes'
 import { Route as RetiradaDeEntulhoRouteImport } from './routes/retirada-de-entulho'
+import { Route as SobreRouteImport } from './routes/sobre'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,9 +27,19 @@ const AreasAtendidasRoute = AreasAtendidasRouteImport.update({
   path: '/areas-atendidas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocacaoDeCacambaRoute = LocacaoDeCacambaRouteImport.update({
   id: '/locacao-de-cacamba',
   path: '/locacao-de-cacamba',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerguntasFrequentesRoute = PerguntasFrequentesRouteImport.update({
+  id: '/perguntas-frequentes',
+  path: '/perguntas-frequentes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RetiradaDeEntulhoRoute = RetiradaDeEntulhoRouteImport.update({
@@ -34,45 +47,78 @@ const RetiradaDeEntulhoRoute = RetiradaDeEntulhoRouteImport.update({
   path: '/retirada-de-entulho',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/areas-atendidas': typeof AreasAtendidasRoute
+  '/contato': typeof ContatoRoute
   '/locacao-de-cacamba': typeof LocacaoDeCacambaRoute
+  '/perguntas-frequentes': typeof PerguntasFrequentesRoute
   '/retirada-de-entulho': typeof RetiradaDeEntulhoRoute
+  '/sobre': typeof SobreRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/areas-atendidas': typeof AreasAtendidasRoute
+  '/contato': typeof ContatoRoute
   '/locacao-de-cacamba': typeof LocacaoDeCacambaRoute
+  '/perguntas-frequentes': typeof PerguntasFrequentesRoute
   '/retirada-de-entulho': typeof RetiradaDeEntulhoRoute
+  '/sobre': typeof SobreRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/areas-atendidas': typeof AreasAtendidasRoute
+  '/contato': typeof ContatoRoute
   '/locacao-de-cacamba': typeof LocacaoDeCacambaRoute
+  '/perguntas-frequentes': typeof PerguntasFrequentesRoute
   '/retirada-de-entulho': typeof RetiradaDeEntulhoRoute
+  '/sobre': typeof SobreRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/areas-atendidas' | '/locacao-de-cacamba' | '/retirada-de-entulho'
+    | '/'
+    | '/areas-atendidas'
+    | '/contato'
+    | '/locacao-de-cacamba'
+    | '/perguntas-frequentes'
+    | '/retirada-de-entulho'
+    | '/sobre'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/areas-atendidas' | '/locacao-de-cacamba' | '/retirada-de-entulho'
+  to:
+    | '/'
+    | '/areas-atendidas'
+    | '/contato'
+    | '/locacao-de-cacamba'
+    | '/perguntas-frequentes'
+    | '/retirada-de-entulho'
+    | '/sobre'
   id:
     | '__root__'
     | '/'
     | '/areas-atendidas'
+    | '/contato'
     | '/locacao-de-cacamba'
+    | '/perguntas-frequentes'
     | '/retirada-de-entulho'
+    | '/sobre'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AreasAtendidasRoute: typeof AreasAtendidasRoute
+  ContatoRoute: typeof ContatoRoute
   LocacaoDeCacambaRoute: typeof LocacaoDeCacambaRoute
+  PerguntasFrequentesRoute: typeof PerguntasFrequentesRoute
   RetiradaDeEntulhoRoute: typeof RetiradaDeEntulhoRoute
+  SobreRoute: typeof SobreRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -91,11 +137,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AreasAtendidasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/locacao-de-cacamba': {
       id: '/locacao-de-cacamba'
       path: '/locacao-de-cacamba'
       fullPath: '/locacao-de-cacamba'
       preLoaderRoute: typeof LocacaoDeCacambaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perguntas-frequentes': {
+      id: '/perguntas-frequentes'
+      path: '/perguntas-frequentes'
+      fullPath: '/perguntas-frequentes'
+      preLoaderRoute: typeof PerguntasFrequentesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/retirada-de-entulho': {
@@ -105,14 +165,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RetiradaDeEntulhoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AreasAtendidasRoute: AreasAtendidasRoute,
+  ContatoRoute: ContatoRoute,
   LocacaoDeCacambaRoute: LocacaoDeCacambaRoute,
+  PerguntasFrequentesRoute: PerguntasFrequentesRoute,
   RetiradaDeEntulhoRoute: RetiradaDeEntulhoRoute,
+  SobreRoute: SobreRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
