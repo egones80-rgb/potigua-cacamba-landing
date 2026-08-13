@@ -77,7 +77,7 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
       </div>
 
       {/* Lightbox */}
-      {selectedImage !== null && (
+      {selectedImage !== null && photos[selectedImage] && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 sm:p-8 animate-in fade-in duration-300"
           onClick={closeLightbox}
