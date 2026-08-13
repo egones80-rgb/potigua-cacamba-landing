@@ -16,7 +16,7 @@ async def main():
         failed_requests = []
         page.on("requestfailed", lambda request: failed_requests.append({
             "url": request.url,
-            "errorText": request.failure.error_text if request.failure else "Unknown error"
+            "errorText": request.failure if request.failure else "Unknown error"
         }))
 
         # Listen for response status codes
