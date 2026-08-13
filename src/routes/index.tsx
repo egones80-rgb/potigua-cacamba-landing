@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import truckImg from "@/assets/caminhao-cacamba.jpg";
 import c1 from "@/assets/c1.json";
+import heroOfficial from "@/assets/hero-official.png.asset.json";
 import { Reveal } from "@/components/Reveal";
 
 import { WhatsAppLink } from "@/components/WhatsAppButton";
@@ -110,13 +111,13 @@ function Index() {
           </Reveal>
 
           <Reveal delay={150}>
-            <div className="relative overflow-hidden rounded-md border border-border shadow-2xl">
+            <div className="relative overflow-hidden rounded-md border border-border shadow-2xl bg-black">
               <img
-                src={(c1 as any).url}
-                alt="Caçamba laranja da Potigua Caçamba"
-                width={1400}
-                height={1000}
-                className="relative z-0 w-full object-cover"
+                src={heroOfficial.url}
+                alt="Logo oficial Potigua Caçamba com caminhão e caçamba"
+                width={1024}
+                height={1024}
+                className="relative z-0 w-full object-contain aspect-square"
               />
             </div>
           </Reveal>
