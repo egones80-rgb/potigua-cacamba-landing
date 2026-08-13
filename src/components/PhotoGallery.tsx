@@ -118,7 +118,7 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
           </button>
 
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-xs sm:text-sm">
-            {selectedImage + 1} / {photos.length}
+            {(selectedImage ?? 0) + 1} / {photos.length}
           </div>
         </div>
       )}
