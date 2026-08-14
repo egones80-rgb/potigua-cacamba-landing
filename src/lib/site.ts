@@ -3,6 +3,7 @@ export const SITE = {
   phoneDisplay: "(11) 93309-5481",
   phoneRaw: "5511933095481",
   region: "Grande São Paulo",
+  businessHours: "Segunda a sexta-feira, das 8h às 17h.",
 } as const;
 
 export const whatsappUrl = (
