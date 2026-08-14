@@ -108,6 +108,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+function BusinessSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Potigua Caçamba",
+    telephone: "+55-11-93309-5481",
+    areaServed: "Grande São Paulo",
+    url: "https://potigua-cacamba-landing.lovable.app",
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:00",
+      closes: "17:00",
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
