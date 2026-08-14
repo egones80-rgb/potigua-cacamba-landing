@@ -137,6 +137,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="pt-BR">
       <head>
         <HeadContent />
+        <BusinessSchema />
       </head>
       <body>
         {children}
