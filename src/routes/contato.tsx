@@ -129,7 +129,7 @@ function Page() {
                 </li>
                 <li className="flex items-start gap-3">
                   <Clock className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                  <span>Horário de atendimento: [PREENCHER]</span>
+                  <span>Horário de atendimento: {SITE.businessHours}</span>
                 </li>
               </ul>
               <WhatsAppLink className="mt-8 flex w-full">Falar no WhatsApp</WhatsAppLink>

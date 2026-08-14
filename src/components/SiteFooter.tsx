@@ -53,7 +53,7 @@ export function SiteFooter() {
             </li>
             <li className="flex items-start gap-2">
               <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-              Horário de atendimento: [PREENCHER]
+              Horário de atendimento: {SITE.businessHours}
             </li>
           </ul>
         </div>
